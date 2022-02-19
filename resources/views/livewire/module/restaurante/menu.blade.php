@@ -1,6 +1,6 @@
 <div class="row">
     @if($caja > 0)
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-3">
         <dic class="p-3 card" wire:click='vender()'>
             <div class="text-center card-body bg-success" style="padding: 10px;">
                 <span class="glyphicon glyphicon-shopping-cart" style="font-size: 60px"></span> <br>
@@ -10,7 +10,7 @@
     </div>
     @endif
 
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-3">
         <dic class="p-3 card" >
             <div class="text-center card-body bg-success" style="padding: 10px;">
                 <span class="glyphicon glyphicon-folder-open" style="font-size: 60px"></span> <br>
@@ -19,7 +19,7 @@
         </dic>
     </div>
     @if($caja > 0)
-    <div class="col-md-2" wire:click='VentasDia()'>
+    <div class="col-md-2 col-sm-3" wire:click='VentasDia()'>
         <dic class="p-3 card" >
             <div class="text-center card-body bg-success" style="padding: 10px;">
                 <span class="glyphicon glyphicon-list-alt" style="font-size: 60px"></span> <br>
@@ -29,7 +29,7 @@
     </div>
     @endif
 
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-3">
         <dic class="p-3 card" >
             <div class="text-center card-body bg-success" style="padding: 10px;">
                 <span class="glyphicon glyphicon-ok" style="font-size: 60px"></span> <br>
@@ -38,7 +38,7 @@
         </dic>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-3">
         <dic class="p-3 card" wire:click='GestionMesas()'>
             <div class="text-center card-body bg-success" style="padding: 10px;">
                 <span class="glyphicon glyphicon-folder-close" style="font-size: 60px"></span> <br>
@@ -47,7 +47,7 @@
         </dic>
     </div>
 
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-3">
         <dic class="p-3 card" wire:click='GestionMozos()'>
             <div class="text-center card-body bg-success" style="padding: 10px;">
                 <span class="glyphicon glyphicon-user" style="font-size: 60px"></span> <br>
@@ -57,7 +57,7 @@
     </div>
 
     @if($caja > 0)
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-3">
         <dic class="p-3 card" wire:click='GestionMozos()'>
             <div class="text-center card-body bg-danger" style="padding: 10px;">
                 <span class="glyphicon glyphicon-user" style="font-size: 60px"></span> <br>
@@ -66,7 +66,7 @@
         </dic>
     </div>
     @else
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-3">
         <dic class="p-3 card" wire:click='AbrirCaja()'>
             <div class="text-center card-body bg-info" style="padding: 10px;">
                 <span class="glyphicon glyphicon-shopping-cart" style="font-size: 60px"></span> <br>

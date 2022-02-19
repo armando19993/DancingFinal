@@ -35,6 +35,8 @@
                 <br>
                 @if($mesa->pedido != null)
                 Total: {{$mesa->pedido->total}}
+                @else
+                <br>
                 @endif
             </div>
         </div>
