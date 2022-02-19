@@ -15,6 +15,10 @@ use GuzzleHttp\Handler\Proxy;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
+use Mike42\Escpos\EscposImage;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use Mike42\Escpos\Printer;
+
 class RestauranteComponent extends Component
 {
     public $view = "menu";
@@ -209,6 +213,14 @@ class RestauranteComponent extends Component
         $this->pedido_seleccionado = $pedido; 
 
         $this->relacion_pedido = RelacionPedidoRestaurante::where('pedido_id',$this->pedido_seleccionado->id)->with('producto')->get();
+            $nombreImpresora = "LR2000 Cocina piso 1";
+            $connector = new WindowsPrintConnector($nombreImpresora);
+            $impresora = new Printer($connector);
+            $impresora->setJustification(Printer::JUSTIFY_CENTER);
+            $impresora->setTextSize(1, 1);
+            $impresora->text("Entrada: #". $i."\n");
+            $impresora->close();
+            
     }
 
     public function sumarCtda($id){
