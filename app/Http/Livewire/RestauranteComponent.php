@@ -20,7 +20,7 @@ class RestauranteComponent extends Component
     public $view = "menu";
 
     public $mesas, $mesa, $mesa_id, $mozo, $caja, $caja_data, $visa, $efectivo, $mesas_data, $pedido_seleccionado, $categorias, $productos, $buscador;
-    public $relacion_pedido, $tipo_pago;
+    public $relacion_pedido, $tipo_pago, $pedidos;
 
 
     public function render()
@@ -293,7 +293,12 @@ class RestauranteComponent extends Component
     public function VentasDia()
     {
         $this->caja_data = Caja::where('local_id', Auth::user()->local_id)->where('status', 1)->first();
-        $pedidos = PedidoRestaurante::where('caja_id', $this->caja_data->id)->get();
-        dd($pedidos);
+        $this->pedidos = PedidoRestaurante::where('caja_id', $this->caja_data->id)->get();
+        $this->view = "ventas_dia";
+    }
+
+    public function cargarPedido($id)
+    {
+        $this->pedido_seleccionado = PedidoRestaurante::where('id', $id)->with(['mozo', 'mesa', 'relacion', 'relacion.producto'])->first();;
     }
 }

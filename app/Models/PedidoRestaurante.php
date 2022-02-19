@@ -23,4 +23,9 @@ class PedidoRestaurante extends Model
     {
         return $this->hasOne(Producto::class, 'id', 'producto_id');
     }
+
+    public function relacion()
+    {
+        return $this->hasMany(RelacionPedidoRestaurante::class, 'pedido_id', 'id');
+    }
 }
