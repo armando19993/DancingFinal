@@ -57,6 +57,7 @@
             </tbody>
           </table>
 
+          
           <div class="text-right">
               <h1>Total: {{$pedido_seleccionado->total}}</h1>
               <button class="btn btn-danger" wire:click='cerrarCuenta()'>Cerrar Cuenta</button>
