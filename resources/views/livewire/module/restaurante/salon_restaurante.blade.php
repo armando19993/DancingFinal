@@ -30,7 +30,7 @@
         <div class="p-3 card" wire:click='editarPedido({{$mesa->pedido->id}})'>
     @endif
             <div class="text-center card-body bg-success" style="padding: 10px;">
-                <span class="glyphicon glyphicon-folder-close" style="font-size: 60px"></span> <br>
+                <img src="mesa.png" width="50%" alt=""> <br>
                 Mesa: {{$mesa->numero_mesa}}
                 <br>
                 @if($mesa->pedido != null)
