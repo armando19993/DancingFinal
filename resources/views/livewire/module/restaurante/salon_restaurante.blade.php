@@ -23,7 +23,7 @@
 
 <div class="row">
 @foreach ($mesas_data as $mesa)
-<div class="col-md-2">
+<div class="col-md-2 col-sm-3">
     @if($mesa->pedido == null)
         <div class="p-3 card" wire:click='nuevoPedido({{$mesa->id}})'>
     @else
