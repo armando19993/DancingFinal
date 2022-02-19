@@ -11,6 +11,8 @@ Route::get('/', function () {
 });
 
 Route::post('login', [UserController::class, 'login'])->name('login');
+Route::get('login', [UserController::class, 'login'])->name('login');
+Route::get('logout', [UserController::class, 'logout'])->name('logout');
 Route::get('home', [HomeController::class, 'index'])->name('home');
 Route::get('locales', [LocaleController::class, 'index'])->name('locales');
 Route::get('categorias', [CategoriaController::class, 'index'])->name('categorias');

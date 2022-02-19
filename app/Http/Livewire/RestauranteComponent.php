@@ -290,5 +290,10 @@ class RestauranteComponent extends Component
         $this->vender();
     }
 
-    
+    public function VentasDia()
+    {
+        $this->caja_data = Caja::where('local_id', Auth::user()->local_id)->where('status', 1)->first();
+        $pedidos = PedidoRestaurante::where('caja_id', $this->caja_data->id)->get();
+        dd($pedidos);
+    }
 }

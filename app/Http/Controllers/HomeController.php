@@ -11,8 +11,9 @@ class HomeController extends Controller
 {
     public function index()
     {
-        Auth::loginUsingId(2);
-        $local = ModelsLocale::find(Auth::user()->local_id);
+        if(Auth::user() != null)
+        {
+            $local = ModelsLocale::find(Auth::user()->local_id);
         if(Auth::user()->tipo_usuario == 4)
         {
             return view('restaurante', [
@@ -30,6 +31,11 @@ class HomeController extends Controller
                 'local' => $local
             ]);
         }
+        }
+        else{
+            return redirect('/');
+        }
+        
         
         
     }

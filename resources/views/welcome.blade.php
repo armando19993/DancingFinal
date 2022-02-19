@@ -20,7 +20,7 @@
       <div
         class="flex-1 h-full max-w-4xl mx-auto overflow-hidden bg-white rounded-lg shadow-xl dark:bg-gray-800"
       >
-      <form action="{{route('home')}}" method="get">
+      <form action="{{route('login')}}" method="post">
         @csrf
         <div class="flex flex-col overflow-y-auto md:flex-row">
           <div class="h-32 md:h-auto md:w-1/2">
@@ -65,9 +65,6 @@
 
               <!-- You should use a button here, as the anchor is only used for the example  -->
               <input type="submit" value="Inicie Sesion" class="block w-full px-4 py-2 mt-4 text-sm font-medium leading-5 text-center text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple">
-              <button type="submit" >
-               Inicie Sesion </button>
-                
 
               
             </div>

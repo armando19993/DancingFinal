@@ -12,13 +12,18 @@ class UserController extends Controller
     public function login(Request $request)
     {
 
-        $user = User::where('user', $request->user)->where('password', sha1($request->password))->first();
-
+        $user = User::where('user', $request->user)->where('password', sha1($request->passwords))->first();
         if ($user != null) {
             Auth::loginUsingId($user->id);
             return redirect()->route('home');
         } else {
-            return redirect()->route('login');
+            return redirect('/');
         }
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect('/');
     }
 }

@@ -41,7 +41,7 @@
                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">{{Auth::user()->name}} <b class="caret"></b></a>
                 <ul role="menu" class="dropdown-menu">
                   <li class="dropdown-header">Configuracion</li>
-                  <li><a href="#">Cerrar Sesion</a></li>
+                  <li><a href="{{route('logout')}}">Cerrar Sesion</a></li>
                 </ul>
               </li>
             </ul>

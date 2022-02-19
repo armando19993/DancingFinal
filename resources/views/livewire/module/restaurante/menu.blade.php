@@ -19,7 +19,7 @@
         </dic>
     </div>
     @if($caja > 0)
-    <div class="col-md-2">
+    <div class="col-md-2" wire:click='VentasDia()'>
         <dic class="p-3 card" >
             <div class="text-center card-body bg-success" style="padding: 10px;">
                 <span class="glyphicon glyphicon-list-alt" style="font-size: 60px"></span> <br>
