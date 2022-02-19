@@ -12,6 +12,7 @@
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.10",
+        "mike42/escpos-php": "^3.0",
         "wireui/wireui": "^0.17.0"
     },
     "require-dev": {
