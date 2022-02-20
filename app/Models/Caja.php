@@ -18,4 +18,9 @@ class Caja extends Model
     {
         return $this->hasMany(RelacionCaja::class, 'caja_id', 'id');
     }
+
+    public function pedidos()
+    {
+        return $this->hasMany(PedidoRestaurante::class, 'caja_id', 'id');
+    }
 }

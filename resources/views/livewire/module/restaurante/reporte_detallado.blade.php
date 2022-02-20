@@ -7,28 +7,31 @@
         
     </div>
     
+
     <table class="table">
         <thead>
           <tr>
-            <th scope="col">Producto</th>
-            <th scope="col">Inicio</th>
-            <th scope="col">Final</th>
-            <th scope="col">Vendidos</th>
+            <th scope="col">Pedido Numero</th>
             <th scope="col">Monto en Soles</th>
+            <th scope="col">Tipo de Pago</th>
           </tr>
         </thead>
         <tbody>
-            @foreach($caja_data->relacion as $relacion)
+            @foreach($caja_data->pedidos as $relacion)
             <tr>
-                <th scope="row">{{$relacion->producto->nombre}}</th>
-                <th>{{$relacion->inicio}}</th>
-                <th>{{$relacion->fin}}</th>
-                <th>{{$relacion->vendidos}}</th>
-                <th>{{$relacion->vendidos * $relacion->producto->precio}}</th>
+                <th>{{$relacion->id}}</th>
+                <th>{{$relacion->total}}</th>
+                <th>
+                    @if($relacion->tipo_pago == 1)
+                    <span class="badge badge-success">Efectivo</span>
+                    @else
+                        <span class="badge badge-danger">Visa</span>
+                    @endif
+                </th>
               </tr>
-            @endforeach
-          
+              @endforeach
         </tbody>
+        
       </table>
 
       <h3>Efectivo: S/ {{$efectivo}}</h3> 
