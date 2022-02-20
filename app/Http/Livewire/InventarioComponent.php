@@ -23,12 +23,27 @@ class InventarioComponent extends Component
         {
             $this->productos = Inventario::where('local_id', $this->local)->with('inventario')->sum('inventario');
            
-            dd($this->productos);
         }
         else{
             $this->productos = Inventario::where('local_id', $this->local)->with('producto')->get();
         }
-        
+    }
 
+
+    public function actualizarInventario($id)
+    {
+        $this->inventario = Inventario::find($id);
+        $this->cantidad = $this->inventario->inventario;
+        $this->view = "editar";
+    }
+
+    public function updateInventario()
+    {
+        $inventario = $this->inventario;
+        $inventario->inventario = $this->cantidad;
+        $inventario->save();
+
+        $this->productos = Inventario::where('local_id', $this->local)->with('producto')->get();
+        $this->view = "inventario_completo";
     }
 }

@@ -25,6 +25,7 @@
                 <tr>
                     <td>{{$producto->producto->nombre}}</td>
                     <td>{{$producto->inventario}}</td>
+                    <td><a href="#" wire:click='actualizarInventario({{$producto->id}})' class="btn btn-success">Editar</a></td>
                 </tr>
               @endforeach
             @endif
