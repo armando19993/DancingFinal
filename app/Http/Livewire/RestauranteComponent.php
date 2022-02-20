@@ -327,6 +327,8 @@ class RestauranteComponent extends Component
     public function verCaja($id)
     {
         $this->caja_data = Caja::where('id', $id)->with(['pedidos'])->first();
+        $this->visa = PedidoRestaurante::where('caja_id', $this->caja_data->id)->where('tipo_pago', 2)->sum('total');
+        $this->efectivo = PedidoRestaurante::where('caja_id', $this->caja_data->id)->where('tipo_pago', 1)->sum('total');
         $this->view = "reporte_detallado";
     }
 }
