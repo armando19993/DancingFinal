@@ -36,4 +36,5 @@
 
       <h3>Efectivo: S/ {{$efectivo}}</h3> 
       <h3>Visa: S/ {{$visa}}</h3> <br>
+      <h3>Total: S/ {{$visa + $efectivo}}</h3> <br>
 </div>
