@@ -312,19 +312,7 @@ class RestauranteComponent extends Component
     {
         $caja = Caja::where('status', 1)->where('usuario_id', Auth::user()->id)->first();
         $productos = Producto::with('inventarios')->get();
-        foreach($productos as $producto)
-        {
-            $rel = RelacionCaja::where('caja_id', $caja->id)->where('producto_id', $producto->id)->first();
-            foreach ($producto->inventarios as $inventario)
-            {
-                if($inventario->local_id == Auth::user()->local_id)
-                {
-                    $rel->fin = $inventario->inventario;
-                    $rel->vendidos = $rel->inicio - $inventario->inventario;
-                }
-            }
-            $rel->save();
-        }
+        
         $caja->status = 2;
         $caja->save();
         $this->caja = 0;
