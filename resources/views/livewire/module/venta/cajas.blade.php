@@ -2,26 +2,23 @@
     <button wire:click='default()' class="float-right btn btn-warning"> Regresar</button>
 </div>
 <div class="row">
-    <div class="col-md-6">
-        <div class="mb-3 form-group">
-            <label for="">Producto</label>
-            <input type="text" class="form-control" wire:model="buscador" wire:keyup="buscar()">
-        </div>
-
+    <div class="col-md-12">
+      <h1>Cajas Ultimas</h1>
         <table class="table">
             <thead>
               <tr>
-                <th scope="col">Producto</th>
-                <th scope="col">Precio</th>
-                <th scope="col">Agregar</th>
+                <th scope="col">Caja Id</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Creada Por</th>
               </tr>
             </thead>
             <tbody>
-                @foreach($productos as $producto)
+                @foreach($cajas as $caja)
                 <tr>
-                    <th scope="row">{{$producto->nombre}}</th>
-                    <td>{{$producto->precio}}</td>
-                    <td> <button class="btn btn-success" wire:click='agregar({{$producto->id}})'><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></button> </td>
+                    <th scope="row">{{$caja->id}}</th>
+                    <td>{{$caja->fecha_apertura}}</td>
+                    <td>{{$caja->usuario->name}}</td>
+                    <td> <button class="btn btn-success" wire:click='verCaja({{$caja->id}})'><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span></button> </td>
                   </tr>
                 @endforeach
               

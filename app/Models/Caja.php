@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Caja extends Model
 {
     use HasFactory;
+
+    public function usuario()
+    {
+        return $this->hasOne(User::class, 'id', 'usuario_id');
+    }
+
+    public function relacion()
+    {
+        return $this->hasMany(RelacionCaja::class, 'caja_id', 'id');
+    }
 }

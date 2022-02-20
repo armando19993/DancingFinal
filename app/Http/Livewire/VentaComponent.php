@@ -3,18 +3,24 @@
 namespace App\Http\Livewire;
 
 use App\Models\Caja;
+use App\Models\Inventario;
 use App\Models\Producto;
 use App\Models\RelacionCaja;
+use App\Models\RelacionPedidoRestaurante;
 use App\Models\RelacionVenta;
 use App\Models\Venta;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 
+use Mike42\Escpos\EscposImage;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
+use Mike42\Escpos\Printer;
+
 class VentaComponent extends Component
 {
     public $view = "menu";
 
-    public $caja, $productos, $pedido_seleccionado, $buscador, $cajas;
+    public $caja, $productos, $pedido_seleccionado, $buscador, $cajas, $producto, $cantidad_producto, $caja_data;
     public function render()
     {
         $this->caja = Caja::where('local_id', Auth::user()->local_id)->where('status', 1)->count();
@@ -63,23 +69,10 @@ class VentaComponent extends Component
     public function vender()
     {
         $caja = Caja::where('status', 1)->first();
-        $venta = Venta::where('caja_id', $caja->id)->first();
-        if($venta == null)
-        {
-            $venta = new Venta();
-            $venta->caja_id = $caja->id;
-            $venta->status = 1;
-            $venta->total = 0;
-            $venta->tipo_pago = 0;
-            $venta->save();
-        }
         $this->productos = Producto::all();
-        $new = Venta::where('status', 1)->first();
-        $this->pedido_seleccionado = $venta; 
         $this->caja_data = Caja::where('local_id', Auth::user()->local_id)->where('status', 1)->first();
         $this->visa = Venta::where('caja_id', $this->caja_data->id)->where('tipo_pago', 2)->sum('total');
         $this->efectivo = Venta::where('caja_id', $this->caja_data->id)->where('tipo_pago', 1)->sum('total');
-        $this->relacion_pedido = RelacionVenta::where('venta_id', $venta->id)->with('producto')->get();
 
         $this->view = "vender";
     }
@@ -91,21 +84,45 @@ class VentaComponent extends Component
 
     public function agregar($id)
     {
-        $producto = Producto::find($id);
+        $this->producto = Producto::find($id);
+
+        $this->view = "relacion_venta";
+        
+    }
+
+    public function pago($id)
+    {
+        $nombreImpresora = "1256";
+        $connector = new WindowsPrintConnector($nombreImpresora);
+        $impresora = new Printer($connector);
+        $impresora->setJustification(Printer::JUSTIFY_CENTER);
+        $impresora->setTextSize(2, 2);
+        $impresora->feed(5);
+        $impresora->text($this->producto->nombre."\n");
+        $impresora->text("Ctda: ".$this->cantidad_producto."\n");
+        $impresora->feed(5);
+        $impresora->close();
+
+        $venta = new Venta();
+        $venta->caja_id = $this->caja_data->id;
+        $venta->status = 2;
+        $venta->total = $this->producto->precio * $this->cantidad_producto;
+        $venta->tipo_pago = $id;
+        $venta->save();
+
         $rel = new RelacionVenta();
-        $rel->venta_id = $this->pedido_seleccionado->id;
-        $rel->producto_id = $id;
-        $rel->cantidad = 1;
-        $rel->total = $producto->precio;
+        $rel->venta_id = $venta->id;
+        $rel->producto_id = $this->producto->id;
+        $rel->cantidad = $this->cantidad_producto;
+        $rel->total = $venta->total;
         $rel->save();
 
-        $pedido = $this->pedido_seleccionado;
-        $pedido->total = $pedido->total + $rel->total;
-        $pedido->save();
+        $inventario = Inventario::where('local_id', Auth::user()->local_id)->where('producto_id', $this->producto->id)->first();
+        $inventario->inventario = $inventario->inventario - $this->cantidad_producto;
+        $inventario->save();
 
-        $this->pedido_seleccionado = $pedido; 
-
-        $this->relacion_pedido = RelacionVenta::where('venta_id',$this->pedido_seleccionado->id)->with('producto')->get();
+        $this->cantidad_producto = "";
+        $this->vender();
     }
 
     public function sumarCtda($id){
@@ -196,9 +213,18 @@ class VentaComponent extends Component
         $this->caja = 0;
     }
 
-    public function Reportes()
+    public function reportes()
     {
-        $this->cajas = Caja::where('local_id', Auth::user()->id)->where('usuario_id', Auth::user()->id)->get();
+        $this->cajas = Caja::where('local_id', Auth::user()->local_id)->where('usuario_id', Auth::user()->id)->with('usuario')->get();
         $this->view = "cajas";
     }
+
+    public function verCaja($id)
+    {
+        $this->caja_data = Caja::where('id', $id)->with(['relacion', 'relacion.producto'])->first();
+        $this->visa = Venta::where('caja_id', $this->caja_data->id)->where('tipo_pago', 2)->sum('total');
+        $this->efectivo = Venta::where('caja_id', $this->caja_data->id)->where('tipo_pago', 1)->sum('total');
+        $this->view = "reporte_detallado";
+    }
+
 }

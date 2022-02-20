@@ -11,7 +11,7 @@
     @endif
 
     <div class="col-md-2">
-        <dic class="p-3 card" >
+        <dic class="p-3 card" wire:click='reportes()'>
             <div class="text-center card-body bg-success" style="padding: 10px;">
                 <span class="glyphicon glyphicon-folder-open" style="font-size: 60px"></span> <br>
                 Reportes
