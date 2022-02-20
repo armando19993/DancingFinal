@@ -24,7 +24,7 @@ class RestauranteComponent extends Component
     public $view = "menu";
 
     public $mesas, $mesa, $mesa_id, $mozo, $caja, $caja_data, $visa, $efectivo, $mesas_data, $pedido_seleccionado, $categorias, $productos, $buscador;
-    public $relacion_pedido, $tipo_pago, $pedidos;
+    public $relacion_pedido, $tipo_pago, $pedidos, $reportes;
 
 
     public function render()
@@ -306,5 +306,39 @@ class RestauranteComponent extends Component
     public function cargarPedido($id)
     {
         $this->pedido_seleccionado = PedidoRestaurante::where('id', $id)->with(['mozo', 'mesa', 'relacion', 'relacion.producto'])->first();;
+    }
+
+    public function CerrarCaja()
+    {
+        $caja = Caja::where('status', 1)->where('usuario_id', Auth::user()->id)->first();
+        $productos = Producto::with('inventarios')->get();
+        foreach($productos as $producto)
+        {
+            $rel = RelacionCaja::where('caja_id', $caja->id)->where('producto_id', $producto->id)->first();
+            foreach ($producto->inventarios as $inventario)
+            {
+                if($inventario->local_id == Auth::user()->local_id)
+                {
+                    $rel->fin = $inventario->inventario;
+                    $rel->vendidos = $rel->inicio - $inventario->inventario;
+                }
+            }
+            $rel->save();
+        }
+        $caja->status = 2;
+        $caja->save();
+        $this->caja = 0;
+    }
+
+    public function Reportes()
+    {
+        $this->cajas = Caja::where('local_id', Auth::user()->local_id)->with('usuario')->get();
+        $this->view = "reportes";
+    }
+
+    public function verCaja($id)
+    {
+        $this->caja_data = Caja::where('id', $id)->with(['relacion', 'relacion.producto'])->first();
+        $this->view = "reporte_detallado";
     }
 }
